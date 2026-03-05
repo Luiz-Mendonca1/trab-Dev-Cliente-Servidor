@@ -123,3 +123,84 @@ function limparCampos() {
 // Quando o navegador carregar a página,
 // essa função será executada automaticamente
 listarAlunos();
+
+const form = document.getElementById('produto-form');
+const listaProdutos = document.getElementById('lista-produtos');
+const btnSalvar = document.getElementById('btn-salvar');
+
+// Função para listar produtos
+async function carregarProdutos() {
+    const response = await fetch('/api/produtos');
+    const produtos = await response.json();
+    
+    listaProdutos.innerHTML = '';
+    produtos.forEach(p => {
+        listaProdutos.innerHTML += `
+            <tr>
+                <td>${p.id}</td>
+                <td>${p.nome}</td>
+                <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
+                <td>${p.quantidade}</td>
+                <td>${p.categoria}</td>
+                <td>
+                    <button onclick="editarProduto(${p.id}, '${p.nome}', ${p.preco}, ${p.quantidade}, '${p.categoria}')">Editar</button>
+                    <button class="btn-delete" onclick="excluirProduto(${p.id})">Excluir</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+// Salvar ou Atualizar
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const id = document.getElementById('produto-id').value;
+    const dados = {
+        nome: document.getElementById('nome').value,
+        preco: document.getElementById('preco').value,
+        quantidade: document.getElementById('quantidade').value,
+        categoria: document.getElementById('categoria').value
+    };
+
+    if (id) {
+        // Atualizar preço e quantidade conforme requisito
+        await fetch(`/api/produtos/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        });
+    } else {
+        // Cadastrar novo
+        await fetch('/api/produtos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        });
+    }
+
+    form.reset();
+    document.getElementById('produto-id').value = '';
+    btnSalvar.innerText = 'Cadastrar Produto';
+    carregarProdutos();
+});
+
+// Preparar edição
+window.editarProduto = (id, nome, preco, quantidade, categoria) => {
+    document.getElementById('produto-id').value = id;
+    document.getElementById('nome').value = nome;
+    document.getElementById('preco').value = preco;
+    document.getElementById('quantidade').value = quantidade;
+    document.getElementById('categoria').value = categoria;
+    btnSalvar.innerText = 'Atualizar Estoque/Preço';
+};
+
+// Excluir
+window.excluirProduto = async (id) => {
+    if (confirm('Deseja realmente excluir este produto?')) {
+        await fetch(`/api/produtos/${id}`, { method: 'DELETE' });
+        carregarProdutos();
+    }
+};
+
+carregarProdutos();

@@ -1,45 +1,27 @@
-CREATE DATABASE escola;
-USE escola;
-CREATE TABLE alunos (
-	id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE DATABASE estoque;
+USE estoque;
+
+CREATE TABLE produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    idade INT NOT NULL,
-    curso VARCHAR(100) NOT NULL
-);   
-SELECT * FROM alunos; 
-INSERT INTO alunos (nome, curso, idade)
-VALUES ('Maria', 'Backend', 22);
-SELECT * FROM alunos; 
+    preco DECIMAL(10, 2) NOT NULL CHECK (preco >= 0), 
+    quantidade INT NOT NULL CHECK (quantidade >= 0),
+    categoria VARCHAR(100) NOT NULL
+);
 
-UPDATE alunos
-SET idade = 23
-WHERE nome = 'Maria';
+-- Testando a visualização
+SELECT * FROM produtos;
 
-INSERT INTO alunos (nome, curso, idade)
-VALUES ('Pastor', 'papagaiada', 22);
+-- Inserções válidas (Funcionam normalmente)
+INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES ('Teclado Mecânico',-250.00, -15, 'Periféricos');
+INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES ('Mouse Gamer', 120.00, 30, 'Periféricos');
+INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES ('Monitor 24p', 850.00, 5, 'Monitores');
 
-DELETE FROM alunos
-WHERE id = 2;
+-- EXEMPLO DE ERRO: Se você tentar executar a linha abaixo, o banco retornará um erro de restrição (Constraint violation)
+-- INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES ('Produto Errado', -10.00, -5, 'Teste');
 
-DELETE FROM alunos
-WHERE nome = 'Pastor';
+-- Exemplo de Update válido
+UPDATE produtos SET preco = 260.00 WHERE nome = 'Teclado Mecânico';
 
-INSERT INTO alunos (nome, curso, idade)
-VALUES ('Carlos1', 'backend', 22);
-
-INSERT INTO alunos (nome, curso, idade)
-VALUES ('Carlos2', 'frontend', 21);
-
-INSERT INTO alunos (nome, curso, idade)
-VALUES ('Carlos3', 'FullStack', 20);
-
-SELECT nome, idade FROM alunos;
-
-SELECT * FROM alunos
-WHERE idade < 22;
-
-SELECT * FROM alunos
-WHERE idade > 22;
-
-SELECT * FROM alunos
-WHERE idade >= 22;
+-- Exemplo de Delete
+DELETE FROM produtos WHERE id = 2;

@@ -1,72 +1,102 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eef2f7;
+    padding: 40px 20px;
+    color: #333;
 }
 
 .container {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-h2, h3 {
+h1 {
     text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
 }
 
-.formulario {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    justify-content: center;
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+#nome, #categoria, #btn-salvar {
+    grid-column: span 2;
 }
 
 input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    border: 1.5px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #3498db;
 }
 
 button {
-    padding: 8px 15px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
+    padding: 12px;
     cursor: pointer;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background: #219150;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-delete {
+    background: #e74c3c;
+    font-size: 16px;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
-}
-
-table, th, td {
-    border: 1px solid #ccc;
-}
-
-th {
-    background-color: #007bff;
-    color: white;
+    margin-top: 20px;
+    background: #fff;
 }
 
 th, td {
-    padding: 8px;
-    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #edf2f7;
+    text-align: left;
 }
 
-td button {
-    background-color: #dc3545;
+th {
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
 }
 
-td button:hover {
-    background-color: #a71d2a;
+tr:hover {
+    background-color: #f9fbff;
+}
+
+.estoque-baixo {
+    color: #e74c3c;
+    font-weight: bold;
 }
