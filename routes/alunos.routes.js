@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const alunosController = require('../controllers/alunos.controller');
+const produtosController = require('../controllers/produtos.controller');
 
-router.get('/alunos', alunosController.listarAlunos);
-router.get('/alunos/:id', alunosController.buscarAluno);
-router.post('/alunos', alunosController.criarAluno);
-router.put('/alunos/:id', alunosController.atualizarAluno);
-router.delete('/alunos/:id', alunosController.deletarAluno);
+//baseado no sistema de alunos se adapta para realizar as funções de acordo com o CRUD
+router.get('/produtos', produtosController.listarProdutos); 
+router.post('/produtos', produtosController.cadastrarProduto); 
+router.put('/produtos/:id', produtosController.atualizarEstoquePreco); 
+router.delete('/produtos/:id', produtosController.excluirProduto); 
 
 module.exports = router;
