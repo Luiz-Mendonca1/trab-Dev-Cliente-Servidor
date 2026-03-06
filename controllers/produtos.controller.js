@@ -21,12 +21,19 @@ exports.cadastrarProduto = (req, res) => {
 // UPDATE produtos SET preco = ?, quantidade = ? WHERE id = ?;
 exports.atualizarProduto = (req, res) => {
     const id = req.params.id;
-    const { preco, quantidade } = req.body;
-    const sql = "UPDATE produtos SET preco = ?, quantidade = ? WHERE id = ?";
-    db.query(sql, [preco, quantidade, id], (err, result) => {
-        if (err) return res.status(500).json({ erro: err.message });
-        res.json({ mensagem: "Produto atualizado!" });
-    });
+    const { nome, preco, quantidade, categoria } = req.body; 
+    
+    const sql = "UPDATE produtos SET nome = ?, preco = ?, quantidade = ?, categoria = ? WHERE id = ?";
+    
+    db.query(
+        sql,
+        [nome, preco, quantidade, categoria, id],
+        (err, result) => {
+            if (err) return res.status(500).json({ erro: err.message });
+            if (result.affectedRows === 0) return res.status(404).json({ mensagem: "Produto não encontrado" });
+            res.json({ mensagem: "Produto atualizado com sucesso!" });
+        }
+    );
 };
 
 // DELETE FROM produtos WHERE id = ?;
