@@ -1,206 +1,118 @@
-// Endereço da nossa API backend
-// Todas as requisições (GET, POST, DELETE) irão para essa URL
-const api = "http://localhost:3000/api/alunos";
+// Configuração da URL base da API
+const apiURL = "/api/produtos";
 
-
-// ===============================
-// FUNÇÃO PARA CADASTRAR ALUNO
-// ===============================
-function cadastrarAluno() {
-
-    // Captura os valores digitados nos inputs do HTML
-    const nome = document.getElementById("nome").value;
-    const idade = document.getElementById("idade").value;
-    const curso = document.getElementById("curso").value;
-
-    // Validação simples: impede envio com campo vazio
-    if (!nome || !idade || !curso) {
-        alert("Preencha todos os campos!");
-        return; // Interrompe a função
-    }
-
-    // Faz requisição HTTP para a API usando fetch
-    fetch(api, {
-
-        // Método HTTP usado para criar um novo registro
-        method: "POST",
-
-        // Cabeçalho informando que estamos enviando JSON
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-        // Converte o objeto JavaScript em JSON
-        body: JSON.stringify({ nome, idade, curso })
-    })
-    .then(res => res.json()) // Converte a resposta para JSON
-    .then(() => {
-
-        // Atualiza a lista de alunos após cadastrar
-        listarAlunos();
-
-        // Limpa os campos do formulário
-        limparCampos();
-    });
-}
-
-
+// Elementos do DOM
+const form = document.getElementById('produto-form');
+const listaProdutos = document.getElementById('lista-produtos');
+const btnSalvar = document.getElementById('btn-salvar');
+const inputId = document.getElementById('produto-id');
 
 // ===============================
-// FUNÇÃO PARA LISTAR ALUNOS
+// 1. LISTAR PRODUTOS
 // ===============================
-function listarAlunos() {
+async function carregarProdutos() {
+    try {
+        const response = await fetch(apiURL);
+        const produtos = await response.json();
+        
+        listaProdutos.innerHTML = ''; // Limpa a tabela antes de preencher
 
-    // Faz requisição GET para buscar todos os alunos
-    fetch(api)
-    .then(res => res.json()) // Converte resposta para JSON
-    .then(alunos => {
-
-        // Pega o elemento <tbody> da tabela
-        const tabela = document.getElementById("tabelaAlunos");
-
-        // Limpa a tabela antes de preencher novamente
-        tabela.innerHTML = "";
-
-        // Para cada aluno retornado do banco
-        alunos.forEach(aluno => {
-
-            // Adiciona uma nova linha na tabela
-            tabela.innerHTML += `
+        produtos.forEach(p => {
+            listaProdutos.innerHTML += `
                 <tr>
-                    <td>${aluno.id}</td>
-                    <td>${aluno.nome}</td>
-                    <td>${aluno.idade}</td>
-                    <td>${aluno.curso}</td>
+                    <td>${p.id}</td>
+                    <td>${p.nome}</td>
+                    <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
+                    <td>${p.quantidade}</td>
+                    <td>${p.categoria}</td>
                     <td>
-                        <button onclick="deletarAluno(${aluno.id})">
-                            Excluir
-                        </button>
+                        <button onclick="prepararEdicao(${p.id}, '${p.nome}', ${p.preco}, ${p.quantidade}, '${p.categoria}')">Editar</button>
+                        <button class="btn-delete" onclick="excluirProduto(${p.id})">Excluir</button>
                     </td>
                 </tr>
             `;
         });
-    });
+    } catch (error) {
+        console.error("Erro ao carregar produtos:", error);
+    }
 }
 
-
-
 // ===============================
-// FUNÇÃO PARA DELETAR ALUNO
+// 2. CADASTRAR OU ATUALIZAR
 // ===============================
-function deletarAluno(id) {
-
-    // Faz requisição DELETE passando o ID na URL
-    fetch(`${api}/${id}`, {
-        method: "DELETE"
-    })
-    .then(() => {
-
-        // Após deletar, atualiza a lista novamente
-        listarAlunos();
-    });
-}
-
-
-
-// ===============================
-// FUNÇÃO PARA LIMPAR OS CAMPOS
-// ===============================
-function limparCampos() {
-
-    // Define valor vazio para cada input
-    document.getElementById("nome").value = "";
-    document.getElementById("idade").value = "";
-    document.getElementById("curso").value = "";
-}
-
-
-
-// ===============================
-// CARREGA A LISTA ASSIM QUE A PÁGINA ABRE
-// ===============================
-
-// Quando o navegador carregar a página,
-// essa função será executada automaticamente
-listarAlunos();
-
-const form = document.getElementById('produto-form');
-const listaProdutos = document.getElementById('lista-produtos');
-const btnSalvar = document.getElementById('btn-salvar');
-
-// Função para listar produtos
-async function carregarProdutos() {
-    const response = await fetch('/api/produtos');
-    const produtos = await response.json();
-    
-    listaProdutos.innerHTML = '';
-    produtos.forEach(p => {
-        listaProdutos.innerHTML += `
-            <tr>
-                <td>${p.id}</td>
-                <td>${p.nome}</td>
-                <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
-                <td>${p.quantidade}</td>
-                <td>${p.categoria}</td>
-                <td>
-                    <button onclick="editarProduto(${p.id}, '${p.nome}', ${p.preco}, ${p.quantidade}, '${p.categoria}')">Editar</button>
-                    <button class="btn-delete" onclick="excluirProduto(${p.id})">Excluir</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-// Salvar ou Atualizar
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    const id = document.getElementById('produto-id').value;
+    const id = inputId.value;
     const dados = {
         nome: document.getElementById('nome').value,
-        preco: document.getElementById('preco').value,
-        quantidade: document.getElementById('quantidade').value,
+        preco: parseFloat(document.getElementById('preco').value),
+        quantidade: parseInt(document.getElementById('quantidade').value),
         categoria: document.getElementById('categoria').value
     };
 
-    if (id) {
-        // Atualizar preço e quantidade conforme requisito
-        await fetch(`/api/produtos/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
-        });
-    } else {
-        // Cadastrar novo
-        await fetch('/api/produtos', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
-        });
+    // Validação básica
+    if (dados.preco < 0 || dados.quantidade < 0) {
+        alert("Preço e quantidade não podem ser negativos!");
+        return;
     }
 
-    form.reset();
-    document.getElementById('produto-id').value = '';
-    btnSalvar.innerText = 'Cadastrar Produto';
-    carregarProdutos();
+    try {
+        let response;
+        if (id) {
+            // Modo Edição (PUT)
+            response = await fetch(`${apiURL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+        } else {
+            // Modo Cadastro (POST)
+            response = await fetch(apiURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+        }
+
+        if (response.ok) {
+            form.reset();
+            inputId.value = '';
+            btnSalvar.innerText = 'Cadastrar Produto';
+            carregarProdutos(); // Atualiza a lista
+        }
+    } catch (error) {
+        alert("Erro ao salvar o produto.");
+    }
 });
 
-// Preparar edição
-window.editarProduto = (id, nome, preco, quantidade, categoria) => {
-    document.getElementById('produto-id').value = id;
+// ===============================
+// 3. PREPARAR EDIÇÃO (PREENCHER FORM)
+// ===============================
+window.prepararEdicao = (id, nome, preco, quantidade, categoria) => {
+    inputId.value = id;
     document.getElementById('nome').value = nome;
     document.getElementById('preco').value = preco;
     document.getElementById('quantidade').value = quantidade;
     document.getElementById('categoria').value = categoria;
+    
     btnSalvar.innerText = 'Atualizar Estoque/Preço';
+    window.scrollTo(0, 0); // Sobe a página para o utilizador ver o form
 };
 
-// Excluir
+// ===============================
+// 4. EXCLUIR PRODUTO
+// ===============================
 window.excluirProduto = async (id) => {
     if (confirm('Deseja realmente excluir este produto?')) {
-        await fetch(`/api/produtos/${id}`, { method: 'DELETE' });
-        carregarProdutos();
+        try {
+            await fetch(`${apiURL}/${id}`, { method: 'DELETE' });
+            carregarProdutos();
+        } catch (error) {
+            alert("Erro ao excluir produto.");
+        }
     }
 };
 
+// Inicialização
 carregarProdutos();
