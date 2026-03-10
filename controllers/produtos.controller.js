@@ -1,55 +1,48 @@
 const db = require('../database/database');
 
-// SELECT * FROM produtos;
-exports.listarProdutos = (req, res) => {
-    db.query("SELECT * FROM produtos", (err, results) => {
-        if (err) return res.status(500).json({ erro: err.message });
-        res.json(results);
-    });
+// Listar Produtos
+exports.listarProdutos = async (req, res) => {
+    try {
+        const result = await db.query("SELECT * FROM produtos ORDER BY id ASC");
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
 };
 
-// INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES (?, ?, ?, ?);
-exports.cadastrarProduto = (req, res) => {
+// Cadastrar Produto
+exports.cadastrarProduto = async (req, res) => {
     const { nome, preco, quantidade, categoria } = req.body;
-    const sql = "INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES (?, ?, ?, ?)";
-    db.query(sql, [nome, preco, quantidade, categoria], (err, result) => {
-        if (err) return res.status(500).json({ erro: err.message });
-        res.status(201).json({ mensagem: "Produto cadastrado!", id: result.insertId });
-    });
+    const sql = "INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES ($1, $2, $3, $4) RETURNING id";
+    try {
+        const result = await db.query(sql, [nome, preco, quantidade, categoria]);
+        res.status(201).json({ mensagem: "Produto cadastrado!", id: result.rows[0].id });
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
 };
 
-// UPDATE produtos SET preco = ?, quantidade = ? WHERE id = ?;
-exports.atualizarProduto = (req, res) => {
+// Atualizar Produto
+exports.atualizarProduto = async (req, res) => {
     const id = req.params.id;
-    const { nome, preco, quantidade, categoria } = req.body; 
-    
-    const sql = "UPDATE produtos SET nome = ?, preco = ?, quantidade = ?, categoria = ? WHERE id = ?";
-    
-    db.query(
-        sql,
-        [nome, preco, quantidade, categoria, id],
-        (err, result) => {
-            if (err) return res.status(500).json({ erro: err.message });
-            if (result.affectedRows === 0) return res.status(404).json({ mensagem: "Produto não encontrado" });
-            res.json({ mensagem: "Produto atualizado com sucesso!" });
-        }
-    );
+    const { nome, preco, quantidade, categoria } = req.body;
+    const sql = "UPDATE produtos SET nome = $1, preco = $2, quantidade = $3, categoria = $4 WHERE id = $5";
+    try {
+        const result = await db.query(sql, [nome, preco, quantidade, categoria, id]);
+        if (result.rowCount === 0) return res.status(404).json({ mensagem: "Produto não encontrado" });
+        res.json({ mensagem: "Produto atualizado com sucesso!" });
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
 };
 
-// DELETE FROM produtos WHERE id = ?;
-exports.excluirProduto = (req, res) => {
+// Excluir Produto
+exports.excluirProduto = async (req, res) => {
     const id = req.params.id;
-    db.query("DELETE FROM produtos WHERE id = ?", [id], (err, result) => {
-        if (err) return res.status(500).json({ erro: err.message });
+    try {
+        await db.query("DELETE FROM produtos WHERE id = $1", [id]);
         res.json({ mensagem: "Produto excluído!" });
-    });
-};
-
-// SELECT * FROM produtos WHERE quantidade < ?; (Exemplo de filtro de estoque baixo)
-exports.buscarEstoqueBaixo = (req, res) => {
-    const limite = req.query.limite || 10;
-    db.query("SELECT * FROM produtos WHERE quantidade < ?", [limite], (err, results) => {
-        if (err) return res.status(500).json({ erro: err.message });
-        res.json(results);
-    });
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
 };
