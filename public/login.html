@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,22 +13,21 @@
 <body>
 
 <div class="box">
-    <div class="login-box">
+    <form id="loginForm" class="login-box">
         <h2>Login Admin</h2>
-        <input type="text" id="usuario" placeholder="Usuário">
-        <input type="password" id="senha" placeholder="Senha">
-        <button onclick="logar()">Entrar</button>
-    </div>
-    <div class="cadastro-box">
+        <input type="text" id="loginEmail" placeholder="Usuário" required>
+        <input type="password" id="loginPassword" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+    </form>
+    <form id="registerForm" class="cadastro-box">
         <h2>Cadastre-se</h2>
-        <input type="text" id="usuario" placeholder="Usuário">
-        <input type="password" id="senha" placeholder="Senha">
-        <input type="password" id="senha" placeholder="Confirmar senha">
-        <button onclick="cadastrar()" class="cadastro-button">Cadastrar-se</button>
-    </div>
+        <input type="text" id="registerEmail" placeholder="Usuário" required>
+        <input type="password" id="registerPassword" placeholder="Senha" required>
+        <input type="password" id="registerPasswordConfirm" placeholder="Confirmar senha" required>
+        <button type="submit" class="cadastro-button">Cadastrar-se</button>
+    </form>
 </div>
 
-<script src="login.js"></script>
+<script src="auth.js"></script>
 
 </body>
-</html>
