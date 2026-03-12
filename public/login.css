@@ -57,6 +57,7 @@ button{
     cursor:pointer;
 }
 
+
 button:hover{
     background:#218838;
 }
@@ -64,4 +65,14 @@ button:hover{
 a.cadastro {
     color: #218838;
     font-weight: bold;
+}
+
+.cadastro-box > button{
+    background: #ffffff;
+    color: #28a745;
+}
+
+.cadastro-box > button:hover{
+    background: #ccc;
+    color: #218838;
 }
