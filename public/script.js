@@ -25,23 +25,18 @@ async function carregarProdutos() {
     try {
         const response = await fetch(apiURL);
         const produtos = await response.json();
-        
-        listaProdutos.innerHTML = ''; // Limpa a tabela antes de preencher
+
+        listaProdutos.innerHTML = ''; // Limpa a tabela
 
         produtos.forEach(p => {
-            listaProdutos.innerHTML += `
-                <tr>
-                    <td>${p.id}</td>
-                    <td>${p.nome}</td>
-                    <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
-                    <td>${p.quantidade}</td>
-                    <td>${p.categoria}</td>
-                    <td>
-                        <button onclick="prepararEdicao(${p.id}, '${p.nome}', ${p.preco}, ${p.quantidade}, '${p.categoria}')">Editar</button>
-                        <button class="btn-delete" onclick="excluirProduto(${p.id})">Excluir</button>
-                    </td>
-                </tr>
-            `;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${p.id}</td>
+                <td>${p.nome}</td>
+                <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
+                <td>${p.quantidade}</td>
+                `;
+            listaProdutos.appendChild(row);
         });
     } catch (error) {
         console.error("Erro ao carregar produtos:", error);
