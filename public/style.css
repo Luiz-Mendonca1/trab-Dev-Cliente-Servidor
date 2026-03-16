@@ -11,7 +11,7 @@ nav.menu-lateral{
   width: 300px;
   height: 100vh;
   background-color: #28a745;
-  padding: 40px 0 40px 1%;
+  padding: 40px 0 40px 0;
   position: fixed;
   top: 0;
   left: 0;
@@ -20,7 +20,7 @@ nav.menu-lateral{
 }
 
 .menu-lateral.fechar{
-  width: 80px;
+  width: 90px;
 }
 
 .menu-lateral.fechar .txt-link{
@@ -28,8 +28,9 @@ nav.menu-lateral{
 }
 
 .btn-expandir{
-  width: 100%;
-  padding-left: 10px;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40px;
 }
 
 .btn-expandir > i{
@@ -41,19 +42,18 @@ nav.menu-lateral{
 ul{
   height: 100%;
   list-style-type: none;
-  padding: 0;
+  padding: 0px;
 }
 
 ul li.item-menu:hover{
   background:#219150;
-
 }
 
 ul li.item-menu a{
   color: #eef2f7;
   text-decoration: none;
   font-size: 20px;
-  padding: 20px 4%;
+  padding: 20px 15%;
   display: flex;
   line-height: 40px;
 }
