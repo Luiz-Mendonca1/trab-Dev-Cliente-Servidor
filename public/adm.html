@@ -10,23 +10,15 @@
 
 </head>
 <body>
-    <nav class="menu-lateral">
-        <div class="btn-expandir">
-            <i class="bi bi-list"></i>
+    <header class="top-bar">
+        <div class="top-bar-left">
+            <span class="app-title">Sistema de Alunos</span>
         </div>
-        <!-- Botão de Expansão Final -->
-
-        <!-- Avatar ADM -->
-        <ul>
-            <li class="item-menu">
-                <a href="login.html" target="_blank">
-                    <span class="icon"><i class="bi bi-person-circle"></i></span>
-                    <span class="txt-link">Admin</span>
-                </a>
-            </li>
-            
-        </ul>
-    </nav>
+        <div class="top-bar-right">
+            <span class="user-label">Usuário: <strong id="user-email">-</strong></span>
+            <button class="logout-button" onclick="logout()">Sair</button>
+        </div>
+    </header>
     <section class="autoria">
         <h3>Trabalho feito por:</h3>
         <span>Luiz Eduardo, Samuel Carvalho, João Lucas, Igor Gomes</span>

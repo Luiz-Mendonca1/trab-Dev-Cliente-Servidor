@@ -4,6 +4,7 @@ function registerUser(event) {
   const email = document.getElementById("registerEmail").value.trim();
   const password = document.getElementById("registerPassword").value;
   const confirm = document.getElementById("registerPasswordConfirm").value;
+  
 
   if (!email || !password || !confirm) {
     alert("Preencha todos os campos de cadastro.");

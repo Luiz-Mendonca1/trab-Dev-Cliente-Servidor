@@ -1,22 +1,15 @@
-
 // Configuração da URL base da API
 const apiURL = "/api/produtos";
 
-// Menu lateral 
-const menu = document.querySelector('.menu-lateral')
-const btn = document.querySelector('.btn-expandir')
 
-btn.addEventListener('click', function(){
-    menu.classList.toggle('fechar')
-})
-
-// Menu lateral final
 
 // Elementos do DOM
 const form = document.getElementById('produto-form');
 const listaProdutos = document.getElementById('lista-produtos');
 const btnSalvar = document.getElementById('btn-salvar');
 const inputId = document.getElementById('produto-id');
+
+/// Barra do Administrador
 
 // ===============================
 // 1. LISTAR PRODUTOS
