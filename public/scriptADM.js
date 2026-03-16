@@ -2,8 +2,7 @@
 const apiURL = "/api/produtos";
 
 const emailAdm = localStorage.getItem("admEmail");
-console.log(emailAdm)
-
+document.getElementById('admEmail').innerText = emailAdm;
 
 // Elementos do DOM
 const form = document.getElementById('produto-form');

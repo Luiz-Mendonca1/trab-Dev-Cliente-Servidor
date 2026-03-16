@@ -4,7 +4,8 @@ function registerUser(event) {
   const email = document.getElementById("registerEmail").value.trim();
   const password = document.getElementById("registerPassword").value;
   const confirm = document.getElementById("registerPasswordConfirm").value;
-  
+
+  localStorage.setItem("admEmail", email);
 
   if (!email || !password || !confirm) {
     alert("Preencha todos os campos de cadastro.");
@@ -76,17 +77,7 @@ function loginUser(event) {
     });
 }
 
-// Se já estiver logado, manda direto para a página principal
-function redirectIfLogged() {
-  const logged = localStorage.getItem("loggedUser");
-  if (logged) {
-    window.location.href = "adm.html";
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  redirectIfLogged();
-
   const loginForm = document.getElementById("loginForm");
   const registerForm = document.getElementById("registerForm");
 

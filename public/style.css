@@ -2,8 +2,8 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #eef2f7;
-  padding: 40px 20px;
   color: #333;
+  margin: 0px;
 }
 
 /* Menu lateral */
@@ -193,4 +193,23 @@ tr:hover {
   font-weight: 500;
   line-height: 1.4;
   display: block;
+}
+
+.headerADM{
+  background-color: #27ae60;
+  display: flex;
+  justify-content: space-between;
+  margin: 0px;
+  width: 100%;
+  padding: 5px 0px;
+  margin-bottom: 20px;
+}
+
+.logout{
+  margin: 0px;
+}
+
+.username{
+  margin: 0px;
+  color: white;
 }
