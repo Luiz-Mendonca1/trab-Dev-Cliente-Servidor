@@ -212,8 +212,9 @@ tr:hover {
   padding: 10px;
 }
 
-.logout:hover{
-  background-color: #219150;
+button.logout:hover{
+  background-color: #27ae60;
+  box-shadow: 0 0;
 }
 
 #username-header {
