@@ -7,12 +7,16 @@
     <title>Sistema de Estoque</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 <body>
     <header class="headerADM">
-        <button onclick="logout()" class="logout">Sair</button>
-        <span class="user-label" class="username">Usuário: <strong id="admEmail"></strong></span>
+        <button onclick="logout()" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Sair
+        </button>
+        <span class="user-label" id="username-header">Usuário: <strong id="admEmail"></strong></span>
     </header>
     <section class="autoria">
         <h3>Trabalho feito por:</h3>

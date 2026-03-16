@@ -195,7 +195,7 @@ tr:hover {
   display: block;
 }
 
-.headerADM{
+.headerADM {
   background-color: #27ae60;
   display: flex;
   justify-content: space-between;
@@ -205,11 +205,19 @@ tr:hover {
   margin-bottom: 20px;
 }
 
-.logout{
-  margin: 0px;
+.logout {
+  margin: 0px 20px;
+  background-color: #27ae60;
+  color: #ffffff;
+  padding: 10px;
 }
 
-.username{
-  margin: 0px;
+.logout:hover{
+  background-color: #219150;
+}
+
+#username-header {
+  margin: 0px 20px;
+  padding: 10px;
   color: white;
 }
