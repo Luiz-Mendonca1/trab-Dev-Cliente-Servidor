@@ -46,6 +46,9 @@ function loginUser(event) {
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
 
+  localStorage.setItem("admEmail", email);
+
+  
   if (!email || !password) {
     alert("Preencha e-mail e senha para entrar.");
     return;

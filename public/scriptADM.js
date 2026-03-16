@@ -1,6 +1,8 @@
 // Configuração da URL base da API
 const apiURL = "/api/produtos";
 
+const emailAdm = localStorage.getItem("admEmail");
+console.log(emailAdm)
 
 
 // Elementos do DOM
@@ -117,6 +119,15 @@ window.excluirProduto = async (id) => {
         }
     }
 };
+
+//logout
+function logout() {
+    localStorage.removeItem("admEmail");
+
+    console.log("Sessão encerrada com sucesso.");
+
+    window.location.href = "index.html";
+}
 
 // Inicialização
 carregarProdutos();
