@@ -35,6 +35,7 @@ async function carregarProdutos() {
                 <td>${p.nome}</td>
                 <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
                 <td>${p.quantidade}</td>
+                <td>${p.categoria}</td>
                 `;
             listaProdutos.appendChild(row);
         });
